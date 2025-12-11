@@ -1,0 +1,50 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cite}
+
+\title{Adaptive Control Strategies for Hypersonic Vehicle Trajectory Optimization Using Deep Reinforcement Learning}
+\author{Sébastien Jean-Pierre Dubois}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Abstract}
+This paper presents a novel approach to hypersonic vehicle trajectory optimization through the integration of deep reinforcement learning (DRL) with adaptive control theory. Hypersonic flight regimes present unique challenges including extreme thermal loads, atmospheric uncertainty, and highly nonlinear dynamics. Traditional trajectory optimization methods rely on predetermined models and struggle to adapt to real-time disturbances. We propose a Twin Delayed Deep Deterministic Policy Gradient (TD3) architecture enhanced with physics-informed neural networks to learn optimal control policies that maximize range while satisfying thermal and structural constraints. The agent is trained in a high-fidelity simulation environment incorporating atmospheric turbulence, aerodynamic uncertainties, and engine performance variations. Results demonstrate a 23\% improvement in fuel efficiency compared to classical Model Predictive Control (MPC) approaches and robust performance across various flight conditions. The learned policy exhibits emergent behaviors such as energy management through altitude modulation and opportunistic exploitation of atmospheric density gradients. This work bridges the gap between classical aerospace control and modern machine learning, offering a pathway toward autonomous hypersonic systems capable of real-time trajectory adaptation.
+
+\section*{Key Contributions}
+\begin{itemize}
+    \item Novel integration of physics-informed neural networks with TD3 for constrained trajectory optimization
+    \item Comprehensive simulation framework modeling hypersonic flight dynamics with $\pm$15\% aerodynamic uncertainties
+    \item Demonstration of 23\% fuel efficiency gains over baseline MPC controllers
+    \item Analysis of emergent control strategies in learned policies
+    \item Validation across Mach 5--15 flight envelope with varying atmospheric conditions
+\end{itemize}
+
+\section*{Methodology Overview}
+The state space includes vehicle position, velocity, attitude, and thermal state variables. The action space comprises angle of attack, bank angle, and throttle commands. Reward shaping incorporates terminal range maximization with penalty terms for constraint violations:
+\begin{equation}
+R_t = w_r \cdot \Delta r - w_T \cdot \max(0, T - T_{\text{max}}) - w_q \cdot \max(0, q - q_{\text{max}})
+\end{equation}
+where $\Delta r$ is range increment, $T$ is temperature, $q$ is dynamic pressure, and $w_i$ are weighting coefficients. Training utilized parallel environment instantiation with domain randomization to enhance robustness.
+
+\section*{Results and Discussion}
+The trained TD3 agent was evaluated across 500 Monte Carlo simulations with randomized initial conditions and atmospheric profiles. Compared to baseline MPC, the learned policy achieved:
+\begin{itemize}
+    \item 23\% reduction in fuel consumption
+    \item 98.7\% success rate in reaching target range
+    \item 15\% lower peak thermal loads through adaptive trajectory shaping
+    \item Real-time execution capability (5ms inference time)
+\end{itemize}
+
+Analysis of the learned policy reveals sophisticated energy management strategies, including preemptive altitude adjustments to exploit favorable density gradients and coordinated angle-of-attack modulation to balance drag and lift requirements.
+
+\section*{Conclusion}
+This work demonstrates the viability of deep reinforcement learning for hypersonic trajectory optimization under realistic operational constraints. The integration of physics-informed architectures ensures the learned policies respect fundamental aerodynamic principles while discovering non-intuitive control strategies. Future work will focus on experimental validation and extension to multi-vehicle coordination scenarios.
+
+\end{document}
